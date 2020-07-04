@@ -8,7 +8,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="https://cdn.vuetifyjs.com/images/logos/favicon.ico">
+    <link rel="shortcut icon" href="assets/logo.png">
 </head>
 
 <body>
@@ -60,11 +60,8 @@
                 </section>
                 <section id="about-me">
                     <div class="py-12"></div>
-
                     <v-container class="text-center">
                         <h2 class="display-2 font-weight-bold mb-3">ABOUT BEER FACTORY </h2>
-
-
                         <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
                             Beer Factory uses Punk API which is an awesome API that allows beer lovers to search
                             Brewdog's catalog of
@@ -73,16 +70,13 @@
                             name, malt
                             name, food pairing, and ID.
                         </v-responsive>
-
-
-
                         <v-btn color="grey" href="https://punkapi.com/documentation/v2" outlined large target="_blank">
                             <span class="black--text text--darken-1 font-weight-bold">
                                 Punk API Documentation
                             </span>
                         </v-btn>
                         <div class="py-2"></div>
-                        <v-btn color="blue" href="" large @click="$vuetify.goTo('#features')">
+                        <v-btn color="blue" href="" large @click="$vuetify.goTo('#info')">
                             <span class="white--text text--darken-1 font-weight-bold">
                                 Start exploring
                             </span>
@@ -90,8 +84,7 @@
                     </v-container>
                     <div class="py-12"></div>
                 </section>
-
-                <section id="features" class="grey lighten-3">
+                <section id="info" class="grey lighten-3">
                     <div class="py-12"></div>
 
                     <v-container class="text-center">
@@ -105,14 +98,19 @@
                         <random-beers-component> </random-beers-component>
 
                     </v-container>
-
                     <div class="py-12"></div>
                 </section>
+                <section id="stats" class="white">
+                    <stats-component></stats-component>
+                </section>
             </v-content>
-
             <v-footer class="justify-center" color="#292929" height="100">
                 <div class="title font-weight-light grey--text text--lighten-1 text-center">
-                    &copy; {{ (new Date()).getFullYear() }} by Ali Bayramli
+                    &copy;{{ (new Date()).getFullYear() }} by Ali Bayramli &nbsp
+                </div>
+                <div class="title font-weight-light grey--text text--lighten-1 text-center">
+                    — Credit: <a href="https://twitter.com/samjbmason" href="https://twitter.com/samjbmason"
+                        target='_blank' style="text-decoration: none;">Sam Mason</a>
                 </div>
             </v-footer>
         </v-app>
@@ -121,7 +119,6 @@
     <script src="https://unpkg.com/vuex"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script src="index.js"></script>
-
 </body>
 
 </html>
