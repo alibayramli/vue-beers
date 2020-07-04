@@ -40,6 +40,7 @@ const store = new Vuex.Store({
 const randomBeersComponent = {
     computed: {
         randomBeer: function () {
+            console.log(`length is: ${this.$store.state.randomBeerInfo.length}`)
             return this.$store.state.randomBeerInfo;
         },
     },
@@ -50,11 +51,28 @@ const randomBeersComponent = {
     },
     template: ` 
     <div>
-        <v-btn color="blue" href="" large @click="getRandomBeer">
+        <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720" v-if="randomBeer.length < 3">
+            Click on the button to get random beers from the database, learn a few useful things about
+            them,
+            you can thank me later 😉
+        </v-responsive>
+        <v-btn color="blue" href="" large @click="getRandomBeer" v-if = "randomBeer.length < 3">
             <span class="white--text text--darken-1 font-weight-bold ">
                 Get beers
             </span>
         </v-btn>
+        <div class="py-2"></div>
+        <div v-if="randomBeer.length === 3">
+            <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
+                Great! Seems you enjoy searching, click on advanced query button to start searching based on above mentioned values
+            </v-responsive>
+            <v-btn color="blue" href="" large @click="" >
+                <span class="white--text text--darken-1 font-weight-bold ">
+                    Advanced query
+                </span>
+            </v-btn>
+        </div>
+
         <v-responsive class="mx-auto mb-12" width="56"></v-responsive>
         <v-row>
             <v-col v-for="({ icon, name, description, id, tips }, i) in randomBeer" :key="i" cols="12" md="4">
