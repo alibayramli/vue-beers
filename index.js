@@ -1,14 +1,10 @@
 const store = new Vuex.Store({
     state: {
-        features: [],
-        beer: {},
+        randomBeerInfo: [],
     },
     mutations: {
-        setBeer(state, payload) {
-            state.beer = payload;
-        },
-        setFeatures(state, payload) {
-            state.features.push({
+        setRandomBeerInfo(state, payload) {
+            state.randomBeerInfo.push({
                 icon: 'mdi-dialpad',
                 name: payload.name,
                 description: payload.description,
@@ -18,36 +14,35 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        async getBeer({ commit }) {
+        async getRandomBeer({ commit }) {
             const response = await fetch("https://api.punkapi.com/v2/beers/random");
             const beers = await response.json();
-            commit("setBeer", beers[0]);
-            commit("setFeatures", beers[0]);
+            commit("setRandomBeerInfo", beers[0]);
         },
     }
 })
 
 const randomBeersComponent = {
     computed: {
-        features: function () {
-            return this.$store.state.features;
+        randomBeer: function () {
+            return this.$store.state.randomBeerInfo;
         },
     },
     methods: {
-        getBeer: function () {
-            this.$store.dispatch("getBeer");
+        getRandomBeer: function () {
+            this.$store.dispatch("getRandomBeer");
         },
     },
     template: ` 
     <div>
-        <v-btn color="blue" href="" large @click="getBeer">
+        <v-btn color="blue" href="" large @click="getRandomBeer">
             <span class="white--text text--darken-1 font-weight-bold ">
                 Get beers
             </span>
         </v-btn>
         <v-responsive class="mx-auto mb-12" width="56"></v-responsive>
         <v-row>
-            <v-col v-for="({ icon, name, description, id, tips }, i) in features" :key="i" cols="12" md="4">
+            <v-col v-for="({ icon, name, description, id, tips }, i) in randomBeer" :key="i" cols="12" md="4">
                 <v-card class="py-12 px-4" color="grey lighten-5" flat  height="100%">
                     <v-theme-provider dark>
                         <v-avatar color="primary" size="88">
@@ -70,8 +65,3 @@ new Vue({
     vuetify: new Vuetify(),
     components: { randomBeersComponent },
 })
-
-
-
-
-
