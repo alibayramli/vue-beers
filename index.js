@@ -3,7 +3,7 @@ const store = new Vuex.Store({
     state: {
         randomBeerInfo: [],
         allBeers: [],
-        generalInfo: ['All beers', 'Random beers', 'Query results'],
+        generalInfo: ['All beers', 'Random beers', 'Query results', 'Oldest query brew'],
         queryResults: [],
     },
     // when state values change, they go through mutations, 
@@ -203,7 +203,7 @@ const queryFormComponent = {
         valid: true,
         abv_min: '',
         ebc: '',
-        ibu_max: '',
+        ibu_max: '80',
         first_brewed: '',
         // checking if input is a valid number, otherwise show error
         numberRules: [
@@ -320,6 +320,11 @@ const statsComponent = {
         allBeers: function () {
             return this.$store.state.allBeers;
         },
+        oldestBrewfromQuery: function () {
+            console.log('oldest brew')
+            let oldestBrewDate = this.$store.state.queryResults.map(beer => beer.first_brewed.slice(-4)).sort((a, b) => a - b)[0] || 'no data';
+            return oldestBrewDate;
+        },
         generalInfo: function () {
             return this.$store.state.generalInfo;
         },
@@ -345,8 +350,8 @@ const statsComponent = {
                                 v-text="generalInfo[0]">
                             </div>
                         </div>
-                </v-col>
-                <v-col cols="12" md="3">
+                    </v-col>
+                    <v-col cols="12" md="3">
                         <div class="text-center">
                             <div
                                 class="title font-weight-regular text-uppercase"
@@ -357,8 +362,8 @@ const statsComponent = {
                                 v-text="generalInfo[1]">
                             </div>
                         </div>
-                </v-col>
-                <v-col cols="12" md="3" >
+                    </v-col>
+                    <v-col cols="12" md="3" >
                         <div class="text-center">
                             <div
                                 class="title font-weight-regular text-uppercase"
@@ -369,6 +374,18 @@ const statsComponent = {
                                 v-text="generalInfo[2]">
                             </div>
                         </div>
+                    </v-col>
+                    <v-col cols="12" md="3" >
+                    <div class="text-center">
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="oldestBrewfromQuery"> 
+                        </div>
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="generalInfo[3]">
+                        </div>
+                    </div>
                 </v-col>
                 </v-row>
             </v-container>
