@@ -205,6 +205,7 @@ const queryFormComponent = {
         ebc: '',
         ibu_max: '80',
         first_brewed: '',
+        food_name: '',
         // checking if input is a valid number, otherwise show error
         numberRules: [
             v => v === '' || !isNaN(v) || 'Invalid number',
@@ -219,12 +220,12 @@ const queryFormComponent = {
             // two options for validate button,
             // first, ebc with a value
             if (this.ebc !== '') {
-                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max);
+                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max && beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()));
                 this.queryResults(result);
             }
             // second, ebc without a value (default)
             else {
-                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max);
+                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max && beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()));
                 this.queryResults(result);
             }
         },
@@ -253,7 +254,11 @@ const queryFormComponent = {
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-5">
-                    <v-text-field v-model="first_brewed" :rules="dateRules" label="Brew date">
+                    <v-text-field v-model="first_brewed" :rules="dateRules" label="brew date">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="food_name" label="food name">
                     </v-text-field>
                 </v-flex>
                 <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
@@ -321,7 +326,9 @@ const statsComponent = {
             return this.$store.state.allBeers;
         },
         oldestBrewfromQuery: function () {
-            console.log('oldest brew')
+            // search queryResult: first map each beer element, 
+            // slice their brew date part and sort, 
+            // finally take the oldest year
             let oldestBrewDate = this.$store.state.queryResults.map(beer => beer.first_brewed.slice(-4)).sort((a, b) => a - b)[0] || 'no data';
             return oldestBrewDate;
         },
