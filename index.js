@@ -73,11 +73,16 @@ const randomBeersComponent = {
         <div class="py-2"></div>
         <div v-if="randomBeer.length === 3">
             <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-                Great! Seems you enjoy searching, click on advanced query button to start searching based on above mentioned values
+                Great! Seems you enjoy viewing, click on advanced query button to start filtering values or go to stats to see what you have logged so far
             </v-responsive>
-            <v-btn color="blue" href="" large @click="$vuetify.goTo('#advanced-query')" >
+            <v-btn color="blue" class='my-2' href="" large @click="$vuetify.goTo('#advanced-query')" >
                 <span class="white--text text--darken-1 font-weight-bold ">
                     Advanced query
+                </span>
+            </v-btn>
+            <v-btn color="green" href="" large @click="$vuetify.goTo('#stats')" >
+                <span class="white--text text--darken-1 font-weight-bold ">
+                    Check your stats
                 </span>
             </v-btn>
         </div>
@@ -177,22 +182,24 @@ const queryCardComponent = {
         },
     },
     template: `
-    <v-simple-table height="300px" v-if="queryResults.length !== 0">
+    <v-simple-table height="300px" >
         <template v-slot:default>
-            <thead>
+            <thead v-if="queryResults.length !== 0">
                 <tr>
+                <th class="text-left">Row</th>
                 <th class="text-left">Id</th>
                 <th class="text-left">Name</th>
                 <th class="text-left">Abv</th>
                 <th class="text-left">Ebc</th>
                 <th class="text-left">Ibu</th>
-                <th class="text-left">Brew date</th>
-                <th class="text-left">Recommended food</th>
+                <th class="text-left">Year brewed</th>
+                <th class="text-left">Food Match</th>
                 <th class="text-left">Image</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in queryResults" :key="item.name">
+                <tr v-for="(item,index) in queryResults" :key="item.name">
+                <td>{{ index + 1 }}</td>
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.abv }}</td>
@@ -203,6 +210,9 @@ const queryCardComponent = {
                 <td v-if="item.image_url"> <a v-bind:href="item.image_url" style='text-decoration:none' target='_blank'>url</a></td>
                 </tr>
             </tbody>
+            <v-responsive class="mx-auto title font-weight-light " max-width="720" v-if="queryResults.length === 0">
+                No data
+            </v-responsive>
         </template>
     </v-simple-table>`
 }
@@ -231,8 +241,8 @@ new Vue({
                 let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max);
                 this.queryResults(result);
             } else {
-                let queryResult = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max);
-                this.queryResults(queryResult);
+                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max);
+                this.queryResults(result);
             }
         },
         queryResults(payload) {
