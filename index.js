@@ -43,6 +43,19 @@ const store = new Vuex.Store({
     }
 })
 
+const navigationComponent = {
+    template: `
+    <v-app-bar app color="white" id="navbar" height="100">
+        <v-avatar class="mr-3" color="grey lighten-5" size="70">
+            <v-img contain max-height="100%" src="assets/logo.png" >
+            </v-img>
+        </v-avatar>
+        <v-toolbar-title class="font-weight-black headline" @click="$vuetify.goTo('#navbar')">
+            Beer Factory 
+        </v-toolbar-title>
+    </v-app-bar>`
+}
+
 const randomBeersComponent = {
     beforeMount() {
         this.$store.dispatch("getAllBeers");
@@ -274,5 +287,5 @@ new Vue({
     el: '#app',
     store: store,
     vuetify: new Vuetify(),
-    components: { randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
+    components: { navigationComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
 })
