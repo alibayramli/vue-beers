@@ -205,6 +205,7 @@ const queryFormComponent = {
         ebc: '',
         ibu_max: '80',
         first_brewed: '',
+        beer_name: '',
         food_name: '',
         // checking if input is a valid number, otherwise show error
         numberRules: [
@@ -212,7 +213,10 @@ const queryFormComponent = {
         ],
         // checking if input is a valid date, otherwise show error
         dateRules: [
-            v => v === '' || (v > 0 && v <= new Date().getFullYear()) || 'Invalid date',
+            v => v === '' || (v >= 1000 && v <= new Date().getFullYear()) || 'Invalid date',
+        ],
+        nameRules: [
+            v => v === '' || (v.length <= 8) || 'Name must be less or equal to 8 characters'
         ],
     }),
     methods: {
@@ -220,12 +224,20 @@ const queryFormComponent = {
             // two options for validate button,
             // first, ebc with a value
             if (this.ebc !== '') {
-                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max && beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()));
+                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) &&
+                    beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max &&
+                    beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()) &&
+                    beer.name.toLowerCase().includes(this.beer_name.toLowerCase()
+                    ));
                 this.queryResults(result);
             }
             // second, ebc without a value (default)
             else {
-                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max && beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()));
+                let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) &&
+                    beer.abv >= this.abv_min && beer.ibu <= this.ibu_max &&
+                    beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()) &&
+                    beer.name.toLowerCase().includes(this.beer_name.toLowerCase()
+                    ));
                 this.queryResults(result);
             }
         },
@@ -258,7 +270,11 @@ const queryFormComponent = {
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-5">
-                    <v-text-field v-model="food_name" label="food name">
+                    <v-text-field v-model="beer_name" :rules="nameRules" label="beer name">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="food_name" :rules="nameRules" label="food name">
                     </v-text-field>
                 </v-flex>
                 <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
