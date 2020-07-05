@@ -116,9 +116,6 @@ const aboutComponent = {
 }
 
 const randomBeersComponent = {
-    beforeMount() {
-        this.$store.dispatch("getAllBeers");
-    },
     computed: {
         randomBeer: function () {
             return this.$store.state.randomBeerInfo;
@@ -287,6 +284,9 @@ const queryCardComponent = {
 }
 
 const statsComponent = {
+    beforeMount() {
+        this.$store.dispatch("getAllBeers");
+    },
     computed: {
         randomBeerInfo: function () {
             return this.$store.state.randomBeerInfo;
@@ -301,54 +301,54 @@ const statsComponent = {
             return this.$store.state.queryResults;
         },
     },
-    template: ` 
-    <v-parallax
-          :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
-          src="https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=751&amp;q=80%20751w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1051&amp;q=80%201051w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80%201351w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1502&amp;q=80%201502w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1651&amp;q=80%201651w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80%201951w">
-          <v-container fill-height>
-            <v-row class="mx-auto">
+    template: `
+    <section id="stats" class="white"> 
+        <v-parallax
+            :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
+            src="https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=751&amp;q=80%20751w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1051&amp;q=80%201051w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80%201351w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1502&amp;q=80%201502w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1651&amp;q=80%201651w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80%201951w">
+            <v-container fill-height>
+                <v-row class="mx-auto">
+                    <v-col cols="12" md="3">
+                        <div class="text-center">
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="allBeers.length"> 
+                            </div>
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="generalInfo[0]">
+                            </div>
+                        </div>
+                </v-col>
                 <v-col cols="12" md="3">
-                    <div class="text-center">
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="allBeers.length"> 
+                        <div class="text-center">
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="randomBeerInfo.length"> 
+                            </div>
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="generalInfo[1]">
+                            </div>
                         </div>
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="generalInfo[0]">
+                </v-col>
+                <v-col cols="12" md="3" >
+                        <div class="text-center">
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="queryResults.length"> 
+                            </div>
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="generalInfo[2]">
+                            </div>
                         </div>
-                    </div>
-              </v-col>
-              <v-col cols="12" md="3">
-                    <div class="text-center">
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="randomBeerInfo.length"> 
-                        </div>
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="generalInfo[1]">
-                        </div>
-                    </div>
-              </v-col>
-              <v-col cols="12" md="3" >
-                    <div class="text-center">
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="queryResults.length"> 
-                        </div>
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="generalInfo[2]">
-                        </div>
-                    </div>
-              </v-col>
-            </v-row>
-        </v-container>
-    </v-parallax>`
+                </v-col>
+                </v-row>
+            </v-container>
+        </v-parallax>
+    </section>`
 }
-
-
 
 new Vue({
     el: '#app',
