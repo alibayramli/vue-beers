@@ -87,6 +87,34 @@ const heroComponent = {
     </section>`
 }
 
+const aboutComponent = {
+    template: `          
+    <section id="about">
+        <div class="py-12"></div>
+        <v-container class="text-center">
+            <h2 class="display-2 font-weight-bold mb-3">ABOUT BEER FACTORY </h2>
+            <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
+                Beer Factory uses Punk API which is an awesome API that allows beer lovers to search
+                Brewdog's catalog of
+                beers
+                programmatically. Users can search beers by ABV, IBU, EBC, brew date,food pairing, and ID.
+            </v-responsive>
+            <v-btn color="grey" href="https://punkapi.com/documentation/v2" outlined large target="_blank">
+                <span class="black--text text--darken-1 font-weight-bold">
+                    Punk API Documentation
+                </span>
+            </v-btn>
+            <div class="py-2"></div>
+            <v-btn color="blue" href="" large @click="$vuetify.goTo('#info')">
+                <span class="white--text text--darken-1 font-weight-bold">
+                    Start exploring
+                </span>
+            </v-btn>
+        </v-container>
+        <div class="py-12"></div>
+    </section>`
+}
+
 const randomBeersComponent = {
     beforeMount() {
         this.$store.dispatch("getAllBeers");
@@ -318,5 +346,5 @@ new Vue({
     el: '#app',
     store: store,
     vuetify: new Vuetify(),
-    components: { navigationComponent, heroComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
+    components: { navigationComponent, heroComponent, aboutComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
 })

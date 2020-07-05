@@ -16,46 +16,21 @@
         <v-app>
             <navigation-component></navigation-component>
             <hero-component></hero-component>
-            <v-main>
-                <section id="about">
-                    <div class="py-12"></div>
-                    <v-container class="text-center">
-                        <h2 class="display-2 font-weight-bold mb-3">ABOUT BEER FACTORY </h2>
-                        <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-                            Beer Factory uses Punk API which is an awesome API that allows beer lovers to search
-                            Brewdog's catalog of
-                            beers
-                            programmatically. Users can search beers by ABV, IBU, EBC, brew date,food pairing, and ID.
-                        </v-responsive>
-                        <v-btn color="grey" href="https://punkapi.com/documentation/v2" outlined large target="_blank">
-                            <span class="black--text text--darken-1 font-weight-bold">
-                                Punk API Documentation
-                            </span>
-                        </v-btn>
-                        <div class="py-2"></div>
-                        <v-btn color="blue" href="" large @click="$vuetify.goTo('#info')">
-                            <span class="white--text text--darken-1 font-weight-bold">
-                                Start exploring
-                            </span>
-                        </v-btn>
-                    </v-container>
-                    <div class="py-12"></div>
-                </section>
-                <section id="info" class="grey lighten-3">
-                    <div class="py-12"></div>
-                    <v-container class="text-center">
-                        <random-beers-component> </random-beers-component>
-                    </v-container>
-                    <div class="py-12"></div>
-                </section>
-                <section id="advanced-query" class="py-12">
-                    <query-form-component></query-form-component>
-                    <query-card-component class="py-12"></query-card-component>
-                </section>
-                <section id="stats" class="white">
-                    <stats-component></stats-component>
-                </section>
-            </v-main>
+            <about-component></about-component>
+            <section id="info" class="grey lighten-3">
+                <div class="py-12"></div>
+                <v-container class="text-center">
+                    <random-beers-component> </random-beers-component>
+                </v-container>
+                <div class="py-12"></div>
+            </section>
+            <section id="advanced-query" class="py-12">
+                <query-form-component></query-form-component>
+                <query-card-component class="py-12"></query-card-component>
+            </section>
+            <section id="stats" class="white">
+                <stats-component></stats-component>
+            </section>
             <v-footer class="justify-center" color="#white" height="100">
                 <div class="title font-weight-light grey--black text--lighten-1 text-center">
                     &copy;{{ (new Date()).getFullYear() }} by Ali Bayramli &nbsp
