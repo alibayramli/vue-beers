@@ -176,8 +176,7 @@ const randomBeersComponent = {
             </div>
         </v-container>
         <div class="py-12"></div>
-    </section>
-   `
+    </section>`
 }
 
 const queryFormComponent = {
@@ -279,8 +278,7 @@ const queryCardComponent = {
                     Fetching no data :((
                 </v-responsive>
             </template>
-        </v-simple-table>
-   `
+        </v-simple-table>`
 }
 
 const statsComponent = {
@@ -349,10 +347,22 @@ const statsComponent = {
         </v-parallax>
     </section>`
 }
+const footerComponent = {
+    template: `
+    <v-footer class="justify-center" color="#white" height="100">
+        <div class="title font-weight-light grey--black text--lighten-1 text-center">
+            &copy;{{ (new Date()).getFullYear() }} by Ali Bayramli &nbsp
+        </div>
+        <div class="title font-weight-light black--text text--lighten-1 text-center">
+            — Credit: <a href="https://twitter.com/samjbmason"
+                target='_blank' style="text-decoration: none;">Sam Mason</a>
+        </div>
+    </v-footer>`
+}
 
 new Vue({
     el: '#app',
     store: store,
     vuetify: new Vuetify(),
-    components: { navigationComponent, heroComponent, aboutComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
+    components: { navigationComponent, heroComponent, aboutComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent, footerComponent },
 })
