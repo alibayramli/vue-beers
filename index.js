@@ -26,6 +26,9 @@ const store = new Vuex.Store({
             // update state property with new query results, which is payload array
             state.queryResults = payload;
         },
+        resetRandomBeer(state) {
+            state.randomBeerInfo = [];
+        }
     },
     // this is where async calls take place, once the method is called in components,
     // it dispatches info to actions in our state
@@ -53,7 +56,7 @@ const navigationComponent = {
     template: `
     <v-app-bar app color="white" id="navbar" height="100">
         <v-avatar class="mr-3" color="grey lighten-5" size="70">
-            <v-img contain max-height="100%" src="assets/logo.png" >
+            <v-img contain max-height="100%" src="assets/logo.png" @click="$vuetify.goTo('#navbar')">
             </v-img>
         </v-avatar>
         <v-toolbar-title class="font-weight-black headline" @click="$vuetify.goTo('#navbar')">
@@ -132,6 +135,9 @@ const randomBeersComponent = {
             // once get beers function is clicked, dispatch info to get random beer api call
             this.$store.dispatch("getRandomBeer");
         },
+        resetRandomBeer: function () {
+            this.$store.commit("resetRandomBeer");
+        }
     },
     template: ` 
     <section id="info" class="grey lighten-3">
@@ -164,6 +170,11 @@ const randomBeersComponent = {
                             Check your stats
                         </span>
                     </v-btn>
+                    <v-btn color="orange" href="" large @click="resetRandomBeer">
+                        <span class="white--text text--darken-1 font-weight-bold ">
+                            Reset
+                        </span>
+                    </v-btn>                    
                 </div>
                 <v-row>
                     <v-col v-for="({ icon, name, description, tips }, i) in randomBeer" :key="i" cols="12" md="4">
