@@ -1,10 +1,13 @@
 const store = new Vuex.Store({
+    // state object to keep track of every data in a single source      
     state: {
         randomBeerInfo: [],
         allBeers: [],
         generalInfo: ['All beers', 'Random beers', 'Query results'],
         queryResults: [],
     },
+    // when state values change, they go through mutations, 
+    // better for debugging and keeping in state in guidance
     mutations: {
         setRandomBeerInfo(state, payload) {
             state.randomBeerInfo.push({
@@ -20,11 +23,12 @@ const store = new Vuex.Store({
             // once beers are fetched, attach them to the state
         },
         setQueryresults(state, payload) {
+            // update state property with new query results, which is payload array
             state.queryResults = payload;
-            console.log('hey in set')
-            console.log(state.queryResults)
         },
     },
+    // this is where async calls take place, once the method is called in components,
+    // it dispatches info to actions in our state
     actions: {
         async getRandomBeer({ commit }) {
             const response = await fetch("https://api.punkapi.com/v2/beers/random");
@@ -42,6 +46,8 @@ const store = new Vuex.Store({
         },
     }
 })
+
+// there are several components created, each one of them is working seperately to form the web app
 
 const navigationComponent = {
     template: `
@@ -101,7 +107,7 @@ const aboutComponent = {
             </v-responsive>
             <v-btn color="grey" href="https://punkapi.com/documentation/v2" outlined large target="_blank">
                 <span class="black--text text--darken-1 font-weight-bold">
-                    Punk API Documentation
+                    Documentation
                 </span>
             </v-btn>
             <div class="py-2"></div>
@@ -123,6 +129,7 @@ const randomBeersComponent = {
     },
     methods: {
         getRandomBeer: function () {
+            // once get beers function is clicked, dispatch info to get random beer api call
             this.$store.dispatch("getRandomBeer");
         },
     },
@@ -181,28 +188,36 @@ const randomBeersComponent = {
 
 const queryFormComponent = {
     data: () => ({
+        // while true, users can query, otherwise it is disabled
         valid: true,
         abv_min: '',
         ebc: '',
-        ibu_max: '8',
+        ibu_max: '',
         first_brewed: '',
+        // checking if input is a valid number, otherwise show error
         numberRules: [
             v => v === '' || !isNaN(v) || 'Invalid number',
         ],
+        // checking if input is a valid date, otherwise show error
         dateRules: [
-            v => v === '' || (v >= 2000 && v <= new Date().getFullYear()) || 'Invalid number',
+            v => v === '' || (v > 0 && v <= new Date().getFullYear()) || 'Invalid date',
         ],
     }),
     methods: {
         validate() {
+            // two options for validate button,
+            // first, ebc with a value
             if (this.ebc !== '') {
                 let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max);
                 this.queryResults(result);
-            } else {
+            }
+            // second, ebc without a value (default)
+            else {
                 let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) && beer.abv >= this.abv_min && beer.ibu <= this.ibu_max);
                 this.queryResults(result);
             }
         },
+        // in either case for validation, we have to commit to make mutation in state object
         queryResults(payload) {
             this.$store.commit("setQueryresults", payload);
         }
@@ -211,7 +226,7 @@ const queryFormComponent = {
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-container>
         <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-            This is the query section, fill the inputs to see what's coming
+            This is the query section, fill the inputs to see what's coming... 
         </v-responsive>
             <v-layout row wrap>
                 <v-flex xs12 sm6 class="pl-5">
@@ -239,14 +254,14 @@ const queryFormComponent = {
     </v-form>`
 }
 
-const queryCardComponent = {
+const queryTableComponent = {
     computed: {
         queryResults: function () {
             return this.$store.state.queryResults;
         },
     },
     template: `
-        <v-simple-table height="300px" >
+        <v-simple-table height="300px">
             <template v-slot:default>
                 <thead v-if="queryResults.length !== 0">
                     <tr>
@@ -282,6 +297,8 @@ const queryCardComponent = {
 }
 
 const statsComponent = {
+    // this is what happens before the component is mounted,
+    // allbeers property is filled with all the data from the API
     beforeMount() {
         this.$store.dispatch("getAllBeers");
     },
@@ -347,6 +364,7 @@ const statsComponent = {
         </v-parallax>
     </section>`
 }
+
 const footerComponent = {
     template: `
     <v-footer class="justify-center" color="#white" height="100">
@@ -364,5 +382,5 @@ new Vue({
     el: '#app',
     store: store,
     vuetify: new Vuetify(),
-    components: { navigationComponent, heroComponent, aboutComponent, randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent, footerComponent },
+    components: { navigationComponent, heroComponent, aboutComponent, randomBeersComponent, statsComponent, queryFormComponent, queryTableComponent, footerComponent },
 })
