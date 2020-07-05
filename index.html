@@ -48,7 +48,7 @@
 
                                         </v-col>
 
-                                        <v-btn class="align-self-end" fab outlined @click="$vuetify.goTo('#about-me')">
+                                        <v-btn class="align-self-end" fab outlined @click="$vuetify.goTo('#about')">
                                             <v-icon>mdi-chevron-double-down</v-icon>
                                         </v-btn>
                                     </v-row>
@@ -58,7 +58,7 @@
                         </v-img>
                     </v-row>
                 </section>
-                <section id="about-me">
+                <section id="about">
                     <div class="py-12"></div>
                     <v-container class="text-center">
                         <h2 class="display-2 font-weight-bold mb-3">ABOUT BEER FACTORY </h2>
@@ -87,11 +87,48 @@
                 <section id="info" class="grey lighten-3">
                     <div class="py-12"></div>
                     <v-container class="text-center">
-                        <h2 class="display-2 font-weight-bold mb-3">LETS GIVE YOU FACTS</h2>
                         <random-beers-component> </random-beers-component>
                     </v-container>
                     <div class="py-12"></div>
                 </section>
+                <section id="advanced-query">
+                    <div class="py-12"></div>
+                    <template>
+                        <v-form ref="form" v-model="valid" lazy-validation>
+                            <v-container>
+                                <v-layout row wrap>
+                                    <v-flex xs12 sm6 class="pl-5">
+                                        <v-text-field v-model="abv_min" :rules="numberRules" label="minimum abv">
+                                        </v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 class="pl-5">
+                                        <v-text-field v-model="ebc" :rules="numberRules" label="ebc">
+                                        </v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 class="pl-5">
+                                        <v-text-field v-model="ibu_max" :rules="numberRules" label="maximum ibu">
+                                        </v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 class="pl-5">
+                                        <v-text-field v-model="first_brewed" :rules="dateRules" label="Brew date">
+                                        </v-text-field>
+                                    </v-flex>
+                                    <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
+                                        Query
+                                    </v-btn>
+                                </v-layout>
+                                <div class="py-12"></div>
+                                <query-card-component></query-card-component>
+                            </v-container>
+                        </v-form>
+                    </template>
+                    <div class="py-12"></div>
+                </section>
+
+
+
+
+
                 <section id="stats" class="white">
                     <stats-component></stats-component>
                 </section>
