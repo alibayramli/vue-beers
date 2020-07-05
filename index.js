@@ -86,7 +86,6 @@ const randomBeersComponent = {
                 </span>
             </v-btn>
         </div>
-
         <v-responsive class="mx-auto mb-12" width="56"></v-responsive>
         <v-row>
             <v-col v-for="({ icon, name, description, tips }, i) in randomBeer" :key="i" cols="12" md="4">
@@ -105,123 +104,8 @@ const randomBeersComponent = {
         </v-row>
     </div>`
 }
-const statsComponent = {
-    computed: {
-        randomBeerInfo: function () {
-            return this.$store.state.randomBeerInfo;
-        },
-        allBeers: function () {
-            return this.$store.state.allBeers;
-        },
-        generalInfo: function () {
-            return this.$store.state.generalInfo;
-        },
-        queryResults: function () {
-            return this.$store.state.queryResults;
-        },
-    },
-    template: ` 
-    <v-parallax v-if="randomBeerInfo.length !==0"
-          :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
-          src="https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80">
-          <v-container fill-height>
-            <v-row class="mx-auto">
-              <v-col
-                cols="12"
-                md="3">
-                <div class="text-center">
-                    <div
-                        class="title font-weight-regular text-uppercase"
-                        v-text="allBeers.length"> 
-                    </div>
-                    <div
-                        class="title font-weight-regular text-uppercase"
-                        v-text="generalInfo[0]">
-                    </div>
-                </div>
-              </v-col>
-              <v-col
-                cols="12"
-                md="3"
-              >
-                <div class="text-center">
-                    <div
-                        class="title font-weight-regular text-uppercase"
-                        v-text="randomBeerInfo.length"> 
-                    </div>
-                    <div
-                        class="title font-weight-regular text-uppercase"
-                        v-text="generalInfo[1]">
-                    </div>
-                </div>
-              </v-col>
-              <v-col
-              cols="12"
-              md="3"
-            >
-              <div class="text-center">
-                  <div
-                      class="title font-weight-regular text-uppercase"
-                      v-text="queryResults.length"> 
-                  </div>
-                  <div
-                      class="title font-weight-regular text-uppercase"
-                      v-text="generalInfo[2]">
-                  </div>
-              </div>
-            </v-col>
-            </v-row>
-          </v-container>
-        </v-parallax>`
-}
 
-const queryCardComponent = {
-    computed: {
-        queryResults: function () {
-            return this.$store.state.queryResults;
-        },
-    },
-    template: `
-    <v-simple-table height="300px" >
-        <template v-slot:default>
-            <thead v-if="queryResults.length !== 0">
-                <tr>
-                <th class="text-left">Row</th>
-                <th class="text-left">Id</th>
-                <th class="text-left">Name</th>
-                <th class="text-left">Abv</th>
-                <th class="text-left">Ebc</th>
-                <th class="text-left">Ibu</th>
-                <th class="text-left">Year brewed</th>
-                <th class="text-left">Food Match</th>
-                <th class="text-left">Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index) in queryResults" :key="item.name">
-                <td>{{ index + 1 }}</td>
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.abv }}</td>
-                <td>{{ item.ebc || 0 }}</td>
-                <td>{{ item.ibu || 0 }}</td>
-                <td>{{ item.first_brewed }}</td>
-                <td>{{ item.food_pairing[0] }}</td>
-                <td v-if="item.image_url"> <a v-bind:href="item.image_url" style='text-decoration:none' target='_blank'>url</a></td>
-                </tr>
-            </tbody>
-            <v-responsive class="mx-auto title font-weight-light " max-width="720" v-if="queryResults.length === 0">
-                No data
-            </v-responsive>
-        </template>
-    </v-simple-table>`
-}
-
-new Vue({
-    el: '#app',
-    store: store,
-    vuetify: new Vuetify(),
-    components: { randomBeersComponent, statsComponent, queryCardComponent },
+const queryFormComponent = {
     data: () => ({
         valid: true,
         abv_min: '',
@@ -248,5 +132,147 @@ new Vue({
         queryResults(payload) {
             this.$store.commit("setQueryresults", payload);
         }
-    }
+    },
+    template: ` 
+    <v-form ref="form" v-model="valid" lazy-validation>
+        <v-container>
+        <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
+            This is the query section, fill the inputs to see what's coming
+        </v-responsive>
+            <v-layout row wrap>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="abv_min" :rules="numberRules" label="minimum abv">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="ebc" :rules="numberRules" label="ebc">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="ibu_max" :rules="numberRules" label="maximum ibu">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 class="pl-5">
+                    <v-text-field v-model="first_brewed" :rules="dateRules" label="Brew date">
+                    </v-text-field>
+                </v-flex>
+                <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
+                    Query
+                </v-btn>
+            </v-layout>
+            <div class="py-12"></div>
+        </v-container>
+</v-form>`
+}
+
+const statsComponent = {
+    computed: {
+        randomBeerInfo: function () {
+            return this.$store.state.randomBeerInfo;
+        },
+        allBeers: function () {
+            return this.$store.state.allBeers;
+        },
+        generalInfo: function () {
+            return this.$store.state.generalInfo;
+        },
+        queryResults: function () {
+            return this.$store.state.queryResults;
+        },
+    },
+    template: ` 
+    <v-parallax
+          :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
+          src="https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=751&amp;q=80%20751w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1051&amp;q=80%201051w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80%201351w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1502&amp;q=80%201502w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1651&amp;q=80%201651w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80%201951w">
+          <v-container fill-height>
+            <v-row class="mx-auto">
+                <v-col cols="12" md="3">
+                    <div class="text-center">
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="allBeers.length"> 
+                        </div>
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="generalInfo[0]">
+                        </div>
+                    </div>
+              </v-col>
+              <v-col cols="12" md="3">
+                    <div class="text-center">
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="randomBeerInfo.length"> 
+                        </div>
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="generalInfo[1]">
+                        </div>
+                    </div>
+              </v-col>
+              <v-col cols="12" md="3" >
+                    <div class="text-center">
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="queryResults.length"> 
+                        </div>
+                        <div
+                            class="title font-weight-regular text-uppercase"
+                            v-text="generalInfo[2]">
+                        </div>
+                    </div>
+              </v-col>
+            </v-row>
+        </v-container>
+    </v-parallax>`
+}
+
+const queryCardComponent = {
+    computed: {
+        queryResults: function () {
+            return this.$store.state.queryResults;
+        },
+    },
+    template: `
+        <v-simple-table height="300px" >
+            <template v-slot:default>
+                <thead v-if="queryResults.length !== 0">
+                    <tr>
+                    <th class="text-left">Row</th>
+                    <th class="text-left">Id</th>
+                    <th class="text-left">Name</th>
+                    <th class="text-left">Abv</th>
+                    <th class="text-left">Ebc</th>
+                    <th class="text-left">Ibu</th>
+                    <th class="text-left">Year brewed</th>
+                    <th class="text-left">Food Match</th>
+                    <th class="text-left">Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in queryResults" :key="item.name">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.abv }}</td>
+                    <td>{{ item.ebc || 0 }}</td>
+                    <td>{{ item.ibu || 0 }}</td>
+                    <td>{{ item.first_brewed }}</td>
+                    <td>{{ item.food_pairing[0] }}</td>
+                    <td v-if="item.image_url"> <a v-bind:href="item.image_url" style='text-decoration:none' target='_blank'>url</a></td>
+                    </tr>
+                </tbody>
+                <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720" v-if="queryResults.length === 0">
+                    Fetching no data :((
+                </v-responsive>
+            </template>
+        </v-simple-table>
+   `
+}
+
+new Vue({
+    el: '#app',
+    store: store,
+    vuetify: new Vuetify(),
+    components: { randomBeersComponent, statsComponent, queryFormComponent, queryCardComponent },
 })

@@ -66,9 +66,7 @@
                             Beer Factory uses Punk API which is an awesome API that allows beer lovers to search
                             Brewdog's catalog of
                             beers
-                            programmatically. Users can search beers by ABV, IBU, EBC, name, yeast name, brew date, hops
-                            name, malt
-                            name, food pairing, and ID.
+                            programmatically. Users can search beers by ABV, IBU, EBC, brew date,food pairing, and ID.
                         </v-responsive>
                         <v-btn color="grey" href="https://punkapi.com/documentation/v2" outlined large target="_blank">
                             <span class="black--text text--darken-1 font-weight-bold">
@@ -91,53 +89,19 @@
                     </v-container>
                     <div class="py-12"></div>
                 </section>
-                <section id="advanced-query">
-                    <div class="py-12"></div>
-                    <template>
-                        <v-form ref="form" v-model="valid" lazy-validation>
-                            <v-container>
-                                <v-layout row wrap>
-                                    <v-flex xs12 sm6 class="pl-5">
-                                        <v-text-field v-model="abv_min" :rules="numberRules" label="minimum abv">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm6 class="pl-5">
-                                        <v-text-field v-model="ebc" :rules="numberRules" label="ebc">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm6 class="pl-5">
-                                        <v-text-field v-model="ibu_max" :rules="numberRules" label="maximum ibu">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm6 class="pl-5">
-                                        <v-text-field v-model="first_brewed" :rules="dateRules" label="Brew date">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
-                                        Query
-                                    </v-btn>
-                                </v-layout>
-                                <div class="py-12"></div>
-                                <query-card-component></query-card-component>
-                            </v-container>
-                        </v-form>
-                    </template>
-                    <div class="py-12"></div>
+                <section id="advanced-query" class="py-12">
+                    <query-form-component></query-form-component>
+                    <query-card-component class="py-12"></query-card-component>
                 </section>
-
-
-
-
-
                 <section id="stats" class="white">
                     <stats-component></stats-component>
                 </section>
             </v-content>
-            <v-footer class="justify-center" color="#292929" height="100">
-                <div class="title font-weight-light grey--text text--lighten-1 text-center">
+            <v-footer class="justify-center" color="#white" height="100">
+                <div class="title font-weight-light grey--black text--lighten-1 text-center">
                     &copy;{{ (new Date()).getFullYear() }} by Ali Bayramli &nbsp
                 </div>
-                <div class="title font-weight-light grey--text text--lighten-1 text-center">
+                <div class="title font-weight-light black--text text--lighten-1 text-center">
                     — Credit: <a href="https://twitter.com/samjbmason" href="https://twitter.com/samjbmason"
                         target='_blank' style="text-decoration: none;">Sam Mason</a>
                 </div>
