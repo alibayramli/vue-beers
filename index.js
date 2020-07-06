@@ -199,11 +199,11 @@ const randomBeersComponent = {
 
 const queryFormComponent = {
     data: () => ({
-        // while true, users can query, otherwise it is disabled
+        // while valid is true, users can query, otherwise it is disabled
         valid: true,
         abv_min: '',
         ebc: '',
-        ibu_max: '80',
+        ibu_max: '15',
         first_brewed: '',
         beer_name: '',
         food_name: '',
@@ -216,7 +216,7 @@ const queryFormComponent = {
             v => v === '' || (v >= 1000 && v <= new Date().getFullYear()) || 'Invalid date',
         ],
         nameRules: [
-            v => v === '' || (v.length <= 8) || 'Name must be less or equal to 8 characters'
+            v => v === '' || (v.length <= 10) || 'Name must be less or equal to 10 characters'
         ],
     }),
     methods: {
@@ -247,11 +247,11 @@ const queryFormComponent = {
         }
     },
     template: ` 
-    <v-form ref="form" v-model="valid" lazy-validation>
+    <v-form ref="form" v-model="valid" lazy-validation id="advanced-query">
         <v-container>
-        <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-            This is the query section, fill the inputs to see what's coming... 
-        </v-responsive>
+            <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
+                This is the query section, fill the inputs to see what's coming... 
+            </v-responsive>
             <v-layout row wrap>
                 <v-flex xs12 sm6 class="pl-5">
                     <v-text-field v-model="abv_min" :rules="numberRules" label="minimum abv">
@@ -280,8 +280,8 @@ const queryFormComponent = {
                 <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
                     Query
                 </v-btn>
+                <div class="py-12"></div>
             </v-layout>
-            <div class="py-12"></div>
         </v-container>
     </v-form>`
 }
@@ -293,7 +293,11 @@ const queryTableComponent = {
         },
     },
     template: `
-        <v-simple-table height="300px">
+    <section id="query-table">
+        <v-responsive justify="center" align="center" class="title font-weight-light mb-8 pl-5" v-if="queryResults.length !== 0">
+            Query results
+        </v-responsive>
+        <v-simple-table height="300px" class="py-6">
             <template v-slot:default>
                 <thead v-if="queryResults.length !== 0">
                     <tr>
@@ -321,11 +325,12 @@ const queryTableComponent = {
                     <td v-if="item.image_url"> <a v-bind:href="item.image_url" style='text-decoration:none' target='_blank'>url</a></td>
                     </tr>
                 </tbody>
-                <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720" v-if="queryResults.length === 0">
+                <v-responsive justify="center" align="center" class="title font-weight-light mb-8 pl-5" v-if="queryResults.length === 0">
                     Fetching no data :((
                 </v-responsive>
             </template>
-        </v-simple-table>`
+        </v-simple-table>
+    </section>`
 }
 
 const statsComponent = {
@@ -399,17 +404,17 @@ const statsComponent = {
                         </div>
                     </v-col>
                     <v-col cols="12" md="3" >
-                    <div class="text-center">
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="oldestBrewfromQuery"> 
+                        <div class="text-center">
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="oldestBrewfromQuery"> 
+                            </div>
+                            <div
+                                class="title font-weight-regular text-uppercase"
+                                v-text="generalInfo[3]">
+                            </div>
                         </div>
-                        <div
-                            class="title font-weight-regular text-uppercase"
-                            v-text="generalInfo[3]">
-                        </div>
-                    </div>
-                </v-col>
+                    </v-col>
                 </v-row>
             </v-container>
         </v-parallax>
