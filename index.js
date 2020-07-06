@@ -228,7 +228,7 @@ const queryFormComponent = {
             // first, ebc with a value
             if (this.ebc !== '') {
                 let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) &&
-                    beer.abv >= this.abv_min && beer.ebc == this.ebc && beer.ibu <= this.ibu_max &&
+                    beer.abv * 10 >= this.abv_min * 10 && beer.ebc == this.ebc && beer.ibu <= this.ibu_max &&
                     beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()) &&
                     beer.name.toLowerCase().includes(this.beer_name.toLowerCase()
                     ));
@@ -237,7 +237,7 @@ const queryFormComponent = {
             // second, ebc without a value (default)
             else {
                 let result = this.$store.state.allBeers.filter(beer => beer.first_brewed.includes(this.first_brewed) &&
-                    beer.abv >= this.abv_min && beer.ibu <= this.ibu_max &&
+                    beer.abv * 10 >= this.abv_min * 10 && beer.ibu <= this.ibu_max &&
                     beer.food_pairing[0].toLowerCase().includes(this.food_name.toLowerCase()) &&
                     beer.name.toLowerCase().includes(this.beer_name.toLowerCase()
                     ));
