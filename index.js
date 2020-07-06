@@ -133,6 +133,7 @@ const randomBeersComponent = {
         getRandomBeer: function () {
             // once get beers function is clicked, dispatch info to get random beer api call
             this.$store.dispatch("getRandomBeer");
+            this.$vuetify.goTo('#random-beers');
         },
         resetRandomBeer: function () {
             this.$store.commit("resetRandomBeer");
@@ -175,7 +176,7 @@ const randomBeersComponent = {
                         </span>
                     </v-btn>                    
                 </div>
-                <v-row>
+                <v-row id="random-beers">
                     <v-col v-for="({ icon, name, description, tips }, i) in randomBeer" :key="i" cols="12" md="4">
                         <v-card class="py-12 px-4" color="grey lighten-5" flat  height="100%">
                             <v-theme-provider dark>
@@ -243,6 +244,7 @@ const queryFormComponent = {
                     ));
                 this.queryResults(result);
             }
+            this.$vuetify.goTo('#query-table');
         },
         // in either case for validation, we have to commit to make mutation in state object
         queryResults(payload) {
@@ -281,7 +283,7 @@ const queryFormComponent = {
                     <v-text-field v-model="food_name" :rules="nameRules" label="food name">
                     </v-text-field>
                 </v-flex>
-                <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate" @click="$vuetify.goTo('#query-table')">
+                <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
                     Query
                 </v-btn>
                 <div class="py-12"></div>
