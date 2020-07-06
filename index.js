@@ -113,7 +113,6 @@ const aboutComponent = {
                     Documentation
                 </span>
             </v-btn>
-            <div class="py-2"></div>
             <v-btn color="blue" href="" large @click="$vuetify.goTo('#info')">
                 <span class="white--text text--darken-1 font-weight-bold">
                     Start exploring
@@ -148,7 +147,7 @@ const randomBeersComponent = {
                 <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720" v-if="randomBeer.length < 3">
                     Click on the button to get random beers from the database, learn a few useful things about
                     them,
-                    you can thank me later 😉
+                    you can thank me later 🙂
                 </v-responsive>
                 <v-btn color="blue" href="" large @click="getRandomBeer" v-if = "randomBeer.length < 3">
                     <span class="white--text text--darken-1 font-weight-bold ">
@@ -248,6 +247,7 @@ const queryFormComponent = {
     },
     template: ` 
     <v-form ref="form" v-model="valid" lazy-validation id="advanced-query">
+        <div class="py-12"></div>
         <v-container>
             <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
                 This is the query section, fill the inputs to see what's coming... 
@@ -326,7 +326,7 @@ const queryTableComponent = {
                     </tr>
                 </tbody>
                 <v-responsive justify="center" align="center" class="title font-weight-light mb-8 pl-5" v-if="queryResults.length === 0">
-                    Fetching no data :((
+                    No results 🙁
                 </v-responsive>
             </template>
         </v-simple-table>
@@ -365,6 +365,10 @@ const statsComponent = {
         <v-parallax
             :height="$vuetify.breakpoint.smAndDown ? 700 : 500"
             src="https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=751&amp;q=80%20751w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1051&amp;q=80%201051w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1351&amp;q=80%201351w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1502&amp;q=80%201502w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1651&amp;q=80%201651w,%20https://images.unsplash.com/photo-1436262513933-a0b06755c784?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80%201951w">
+            <div class="py-3"></div>
+            <v-responsive align="center"  class="font-weight-bold title font-weight-light mb-8 pl-5">
+                STATS INFO
+            </v-responsive>
             <v-container fill-height>
                 <v-row class="mx-auto">
                     <v-col cols="12" md="3">
