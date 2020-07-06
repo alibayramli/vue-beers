@@ -220,6 +220,10 @@ const queryFormComponent = {
     }),
     methods: {
         validate() {
+            // ibu needs to have a value for comparison, if users chooses not to write anything,
+            // default value will be 15
+            this.ibu_max = this.ibu_max || '15';
+
             // two options for validate button,
             // first, ebc with a value
             if (this.ebc !== '') {
@@ -262,7 +266,7 @@ const queryFormComponent = {
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-5">
-                    <v-text-field v-model="ibu_max" :rules="numberRules" label="maximum ibu">
+                    <v-text-field v-model="ibu_max" :rules="numberRules" label="maximum ibu (15 by default)">
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-5">
@@ -277,7 +281,7 @@ const queryFormComponent = {
                     <v-text-field v-model="food_name" :rules="nameRules" label="food name">
                     </v-text-field>
                 </v-flex>
-                <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate">
+                <v-btn class="pl-5 ml-5" :disabled="!valid" color="info" @click="validate" @click="$vuetify.goTo('#query-table')">
                     Query
                 </v-btn>
                 <div class="py-12"></div>
