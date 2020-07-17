@@ -133,7 +133,6 @@ const randomBeersComponent = {
         getRandomBeer: function () {
             // once get beers function is clicked, dispatch info to get random beer api call
             this.$store.dispatch("getRandomBeer");
-            this.$vuetify.goTo('#random-beers');
         },
         resetRandomBeer: function () {
             this.$store.commit("resetRandomBeer");
